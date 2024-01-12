@@ -17,7 +17,7 @@ LIBS			:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 ALL_SRCS		:= $(DATA_INIT_SRCS)
 
-OBJS			:= ${SRCS:.c=.o}
+OBJS			:= ${ALL_SRCS:.c=.o}
 
 all: libmlx $(NAME)
 
