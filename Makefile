@@ -5,10 +5,10 @@ CFLAGS			:= -Wextra -Wall -Werror
 CFLAGS			+= -Wunreachable-code -Ofast
 # CFLAGS			:+ -fsanitize=address
 
-DATA_INIT_SRCS	= ./main.c
+DATA_INIT_SRCS	= ./cub3d.c
 
 
-LIBMLX			:= ./MLX42
+LIBMLX			:= ./libs/MLX42
 
 HEADERS			:= -I ./include 
 HEADERS			+= -I $(LIBMLX)/include
