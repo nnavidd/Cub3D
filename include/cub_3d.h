@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/01/15 16:37:30 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:26:01 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <string.h>
 # include "../libs/MLX42/include/MLX42/MLX42.h"
-# include "../libs/libft/libft.h"
+# include "../libs/libft/fts.h"
 
 
 # define WIDTH 256
