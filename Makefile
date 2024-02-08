@@ -18,7 +18,9 @@ MLX_BUILD	=	$(MLX_DIR)/build
 # FLAGS #
 
 CFLAGS		=	-Wall -Wextra -Werror -MMD# -g3 -fsanitize=address
+CFLAGS_LX	=	-Wall -Wextra -Werror -Wunreachable-code -Ofast# -g3 -fsanitize=address
 MLXFLAGS	=	-lglfw -framework Cocoa -framework OpenGL -framework IOKit
+MLXFLAGS_LX =	-ldl -lglfw -pthread -lm
 RMFLAGS		=	-rf
 INCFLAGS	=	-I./include \
 				-I./$(LIBFT_DIR)/include \
@@ -40,7 +42,8 @@ MLX42		=	$(MLX_BUILD)/libmlx42.a
 # RULES #
 
 $(NAME): $(LIBFT) $(MLX42) $(OBJS)
-	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS) -o $@ $(OBJS)
+#	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS) -o $@ $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS_LX) -o $@
 
 $(LIBFT):
 	@echo "\033[38;5;214m-----Compiling the LIBFT files-----"
@@ -51,15 +54,17 @@ $(LIBFT):
 $(MLX42):
 	@echo "\033[38;5;214m-----Compiling the MLX files-----"
 	@git submodule update --init --recursive --remote $(MLX_DIR)
-	@brew install glfw
+#	@brew install glfw
 	@cmake -S $(MLX_DIR)/ -B $(MLX_BUILD) -DGLFW_FETCH=1
-	@make -C $(MLX_BUILD) --silent
+#	@cmake $(MLX_DIR) -B $(MLX_BUILD) && make -C $(MLX_BUILD) -j4
+	@make -C $(MLX_BUILD) -j4
 
 -include $(DEPS)
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS_LX) $(INCFLAGS) -c $< -o $@
 
 all: $(NAME)
 
