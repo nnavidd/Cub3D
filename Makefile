@@ -9,7 +9,7 @@ RM			=	rm
 
 SRC_DIR		=	src
 BUILD_DIR	=	build
-SUB_DIRS	=	parsing
+SUB_DIRS	=	parsing utils
 
 LIBFT_DIR	=	libs/libft
 MLX_DIR		=	libs/MLX42
@@ -17,9 +17,9 @@ MLX_BUILD	=	$(MLX_DIR)/build
 
 # FLAGS #
 
-CFLAGS		=	-Wall -Wextra -Werror -MMD# -g3 -fsanitize=address
-CFLAGS_LX	=	-Wall -Wextra -Werror -Wunreachable-code -Ofast# -g3 -fsanitize=address
-MLXFLAGS	=	-lglfw -framework Cocoa -framework OpenGL -framework IOKit
+#CFLAGS		=	-Wall -Wextra -Werror -MMD# -g3 -fsanitize=address
+CFLAGS_LX	=	-Wall -Wextra -Werror -Wunreachable-code -Ofast -g3 -fsanitize=address
+#MLXFLAGS	=	-lglfw -framework Cocoa -framework OpenGL -framework IOKit
 MLXFLAGS_LX =	-ldl -lglfw -pthread -lm
 RMFLAGS		=	-rf
 INCFLAGS	=	-I./include \
@@ -29,7 +29,7 @@ INCFLAGS	=	-I./include \
 
 # FILES #
 
-SRCS		=	$(SRC_DIR)/cub3d.c \
+SRCS		=	$(SRC_DIR)/main.c \
 				$(foreach dir, $(SUB_DIRS), $(wildcard $(SRC_DIR)/$(dir)/*.c))
 OBJS		=	$(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))
 DEPS		=	$(OBJS:.o=.d)
@@ -43,7 +43,7 @@ MLX42		=	$(MLX_BUILD)/libmlx42.a
 
 $(NAME): $(LIBFT) $(MLX42) $(OBJS)
 #	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS) -o $@ $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS_LX) -o $@
+	$(CC) $(OBJS) $(CFLAGS_LX) $(INCFLAGS) $(LIBFT) $(MLX42) $(MLXFLAGS_LX) -o $@
 
 $(LIBFT):
 	@echo "\033[38;5;214m-----Compiling the LIBFT files-----"
