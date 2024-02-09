@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/05 10:26:01 by navid            ###   ########.fr       */
+/*   Updated: 2024/02/09 23:11:25 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include <errno.h>
+# include <math.h>
+# include <sys/wait.h>
+# include <limits.h>
+# include <X11/X.h>
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include "../libs/libft/fts.h"
+# include "../include/utils.h"
+# include "../include/parser.h"
 
 
 # define WIDTH 256
@@ -41,9 +48,19 @@ typedef struct s_map{
 	char	*sprite_texture;
 	int		floor_color[3];
 	int		ceiling_color[3];
-	char	**map;
+	char	**grid;
 	int		map_width;
 	int		map_height;
 }		t_map;
+
+typedef struct s_game{
+	t_map	*map;
+}	t_game;
+
+/////////////////////////////////////////////////////
+////                     utils                  /////
+/////////////////////////////////////////////////////
+
+
 
 #endif
