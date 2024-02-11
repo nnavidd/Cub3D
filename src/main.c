@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:16:02 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/09 23:27:20 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/11 11:58:54 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	fetch_map_detail(t_game *game, char *file)
 	// int		i;
 
 	fd = open(file, O_RDONLY);
-	// if (fd == -1)
-	// 	error_handler("MPADD", errno);
+	if (fd == -1)
+		error_handler("MPADD", errno);
 	(void)game;
 	line = get_next_line(fd);
 	// i = 0;
