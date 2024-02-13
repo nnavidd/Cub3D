@@ -6,16 +6,19 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:45:15 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/11 12:12:02 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/11 15:25:48 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <../include/parser.h>
 
-int parse_resolution(char *line, t_map *map) 
+int parse_resolution(char *line, t_map *map)
 {
-
+	(void) line;
+	(void) map;
+	return (0);
 }
+
 
 int parse_texture(char *line, char **texture)
 {
@@ -29,7 +32,9 @@ int parse_texture(char *line, char **texture)
 
 int parse_color(char *line, int color[3])
 {
-
+	(void) line;
+	(void) color;
+	return (0);
 }
 
 int parse_map(char *line, t_map *map, int *map_lines)
@@ -43,7 +48,7 @@ int parse_map(char *line, t_map *map, int *map_lines)
 		perror("Error: Memory allocation failed"); //error handler should be applied.
 		return (0);
 	}
-	ft_strcpy(map->grid[*map_lines], line);
+	ft_strlcpy(map->grid[*map_lines], line, ft_strlen(line));
 	(*map_lines)++;
 	return (1);
 }

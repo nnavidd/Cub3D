@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   errors_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:17:56 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/09 23:25:42 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:24:49 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/utils.h"
+#include "../include/cub_3d.h"
 
 char	*error_table(char *code)
 {
@@ -22,7 +22,9 @@ char	*error_table(char *code)
 	table[1] = "MAFOR\033[38;5;196mMap file formant is wrong.\033[0m\n";
 	table[2] = "MAROW\033[38;5;196mMap structure is wrong.\033[0m\n";
 	table[3] = "MPADD\033[38;5;196mMap file address has problem.\033[0m\n";
-	table[4] = "MAWAL\033[38;5;196mMap walls are wrong.\033[0m\n";
+	table[16] = "MTFAR\033[38;5;196mMap texture file has problem.\033[0m\n";
+	table[17] = "MCCIW\033[38;5;196mMap ceiling color wrong.\033[0m\n";
+	table[4] = "MFCIW\033[38;5;196mMap floor color wrong.\033[0m\n";
 	table[5] = "MALSW\033[38;5;196mMap lines are not in the same size.\033[0m\n";
 	table[6] = "MAEPW\033[38;5;196mExit/Player/collectable is wrong!\033[0m\n";
 	table[7] = "MACWR\033[38;5;196mWrong charactor in map.\033[0m\n";
@@ -34,9 +36,7 @@ char	*error_table(char *code)
 	table[13] = "XPMPL\033[38;5;196mplayer xpm file is incorrect..\033[0m\n";
 	table[14] = "MLXIN\033[38;5;196mMlx initiation error.\033[0m\n";
 	table[15] = "MLXWI\033[38;5;196mMlx creat new windows error.\033[0m\n";
-	table[16] = "\033[38;5;196minfile doesn't exist.\033[0m\n";
-	table[17] = "\033[38;5;196minfile doesn't exist.\033[0m\n";
-	while (strncmp(table[i], code, 5) != 0)
+	while (ft_strncmp(table[i], code, 5) != 0)
 		i++;
 	return ((table[i] + 5));
 }
@@ -45,17 +45,23 @@ char	*error_table(char *code)
 	header file that has a value of -1. This exit code is typically used
 	to indicate a more specific type of error, 
 	such as a file I/O error or a memory allocation error.*/
-void	error_handler(char *error, int no)
+int	error_handler(char *error, int no)
 {
-	ft_putstr_fd("\033[38;5;214mHey\033[0m, there is an error in:--> ", 2);
-	ft_putstr_fd(error_table(error), 2);
-	if (no != -1 && no != -2)
+	if (no == NOSYSERR)
+	{
+		ft_putstr_fd("\033[38;5;214mHey\033[0m, there is an error in:--> "RED, 2);
+		ft_putstr_fd(error, 2);
+		ft_putstr_fd("\n"RESET, 2);
+		// ft_putstr_fd(error_table(error), 2);
+	}
+	if (no == SYSERR)
 	{
 		strerror(errno);
 		perror("The system error is\033[38;5;196m");
 	}
-	if (no == -2)
-		return ;
-	// system("leaks so_long");
-	exit(errno);
+	// if (no == -2)
+	// 	return ;
+	// // system("leaks so_long");
+	// exit(errno);
+	return (1);
 }

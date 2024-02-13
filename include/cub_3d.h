@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/09 23:11:25 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:24:08 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,20 @@
 # include "../include/utils.h"
 # include "../include/parser.h"
 
+# define BLUE		"\033[38;5;4m"
+# define GREEN		"\033[38;5;2m"  // For a bright green try 10 instead of 2
+# define ORG		"\033[38;5;214m"
+# define RED		"\033[38;5;196m"
+# define RESET		"\033[0m"
 
+# define SYSERR		0
+# define NOSYSERR	1
+# define ONLY_CHECK	2
 # define WIDTH 256
 # define HEIGHT 256
 
+
+typedef struct s_parse t_parse;
 
 
 # define MAX_WIDTH  1024
@@ -55,6 +65,7 @@ typedef struct s_map{
 
 typedef struct s_game{
 	t_map	*map;
+	t_parse	*parser;
 }	t_game;
 
 /////////////////////////////////////////////////////
