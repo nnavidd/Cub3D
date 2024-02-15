@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/13 19:24:08 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/14 23:08:40 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,20 @@ typedef struct s_parse t_parse;
 # define MAX_HEIGHT 1024
 
 typedef struct s_map{
-	int		resolution_x;
-	int		resolution_y;
-	char	*no_texture;
-	char	*so_texture;
-	char	*we_texture;
-	char	*ea_texture;
-	char	*sprite_texture;
-	int		floor_color[3];
-	int		ceiling_color[3];
-	char	**grid;
-	int		map_width;
-	int		map_height;
+	int			resolution_x;
+	int			resolution_y;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
+	char		*sprite_texture;
+	int			floor_color[3];
+	char		**grid;
+	int			ceiling_color[3];
+	uint32_t	map_width;
+	uint32_t	map_height;
+	uint32_t	max_width;
+	uint32_t	*widths;
 }		t_map;
 
 typedef struct s_game{

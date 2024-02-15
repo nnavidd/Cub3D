@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:17:56 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/13 19:24:49 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:29:28 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	error_handler(char *error, int no)
 {
 	if (no == NOSYSERR)
 	{
-		ft_putstr_fd("\033[38;5;214mHey\033[0m, there is an error in:--> "RED, 2);
+		ft_putstr_fd("\033[38;5;214mHiii\033[0m, there is an error:--> "RED, 2);
 		ft_putstr_fd(error, 2);
 		ft_putstr_fd("\n"RESET, 2);
 		// ft_putstr_fd(error_table(error), 2);

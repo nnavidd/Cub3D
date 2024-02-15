@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "cub_3d.h": "c",
+        "cstdlib": "c"
     }
 }

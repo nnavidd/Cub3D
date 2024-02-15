@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:16:02 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/13 17:38:43 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/15 21:03:50 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void print_map_details(t_game *game)
 			printf(GREEN"Floor"RESET RED"R:"RESET"%d"RED"G:"RESET"%d"RED"B:" \
 			RESET"%d\n", game->map->floor_color[0], game->map->floor_color[1],
 				game->map->floor_color[2]);
+		if (game->map->grid)
+		{
+			for(int i = 0; game->map->grid[i]; i++)
+				printf(GREEN"%s\n"RESET, game->map->grid[i]);
+		}
 	}
 }
 

@@ -6,41 +6,45 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:02:04 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/13 20:50:32 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/15 23:56:06 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub_3d.h"
 
-void	initiate_map_variable(t_game *game)
+void	initiate_map(t_map *map)
 {
-	game->map = (t_map *)ft_calloc(1, sizeof(t_map));
-	game->map->resolution_x = 0;
-	game->map->resolution_y = 0;
-	game->map->no_texture = NULL;
-	game->map->so_texture = NULL;
-	game->map->ea_texture = NULL;
-	game->map->we_texture = NULL;
-	game->map->floor_color[0] = -1;
-	game->map->ceiling_color[0] = -1;
-	game->map->grid = NULL;
-	game->map->map_width = 0;
-	game->map->map_height = 120;
+	map->resolution_x = 0;
+	map->resolution_y = 0;
+	map->no_texture = NULL;
+	map->so_texture = NULL;
+	map->ea_texture = NULL;
+	map->we_texture = NULL;
+	map->floor_color[0] = -1;
+	map->floor_color[1] = -1;
+	map->floor_color[2] = -1;
+	map->grid = NULL;
+	map->ceiling_color[0] = -1;
+	map->ceiling_color[1] = -1;
+	map->ceiling_color[2] = -1;
+	map->map_width = 0;
+	map->map_height = 0;
+	map->widths = NULL;
 }
 
-void	initiate_parse_variable(t_parse *parser, t_game *game, char *file)
+void	initiate_parser(t_parse *parser, t_game *game, char *file)
 {
 	parser->fd = open(file, O_RDONLY);
 	if (parser->fd == -1)
 		error_handler("The cub file address is wrong.", SYSERR);
 	parser->line = NULL;
 	parser->split = NULL;
-	parser->details_part = true;
-	parser->map_part = false;
+	// parser->details_part = true;
+	// parser->map_part = false;
 	parser->map = game->map;
 }
 
-void	free_2d_str(char **map)
+void	free_array(char **map)
 {
 	int		i;
 
@@ -63,7 +67,7 @@ void	free_parser(t_parse *parser)
 		if (parser->line)
 			free(parser->line);
 		if (parser->split != NULL)
-			free_2d_str(parser->split);
+			free_array(parser->split);
 		// free(parser->game);
 		free(parser);
 	}
@@ -82,8 +86,12 @@ void	free_game(t_game *game)
 	if (game->map->we_texture != NULL)
 		free(game->map->we_texture);
 	if (game->map->grid != NULL)
-		free_2d_str(game->map->grid);
+		free_array(game->map->grid);
+	if (game->map->widths)
+		free(game->map->widths);
 	if (game->map != NULL)
 		free(game->map);
+	if (game->parser != NULL)
+		free(game->parser);
 	free(game);
 }
