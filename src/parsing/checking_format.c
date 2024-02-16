@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/15 23:45:12 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:23:44 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,11 @@ bool check_element(t_parse *parser)
 	return (false);
 }
 
+int	check_map_char(t_map *map)
+{
+	
+}
+
 int	calc_map_rows_widths(t_map *map)
 {
 	uint32_t	i;
@@ -173,6 +178,7 @@ bool assessment_map(t_map *map)
 {
 	// printf("hight:%d, line[%d]:%s\n", m->map_height, m->map_height, m->grid[m->map_height]);
 	calc_map_rows_widths(map);
+	check_map_char(map);
 	
 	return (true);
 }
@@ -359,13 +365,11 @@ int	fetch_map_detail(t_parse *parser)
 		if (!line_is_empty(parser->line))
 		{
 
-			// if (!check_element(parser->map))
 			if (check_element(parser))
 				read_map(parser);
 			read_element(parser);
 			// for(int i = 0; parser->split[i]; i++)
 			// 	printf("\ts[%d]:%s.\n", i, parser->split[i]);
-			// free_array(parser->split);
 		}
 		if (parser->line)
 			free(parser->line);
