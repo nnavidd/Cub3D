@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:28:33 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/15 14:22:49 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/16 19:14:09 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	initiate_map(t_map *map);
 void	initiate_parser(t_parse *parser, t_game *game, char *file);
 void	free_array(char **map);
 void	free_parser(t_parse *parser);
-void	free_game(t_game *game);
+void	close_game(t_game *game);
 
 
 /**************errors_handling.c***************/
 
 char    *error_table(char *code);
-int     error_handler(char *error, int no);
+int     error(t_game *game, char *error, int no);
 
 #endif

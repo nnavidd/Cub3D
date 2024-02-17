@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/16 16:23:44 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:33:26 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ size_t	array_length(char **array)
 		i++;
 	return (i);
 }
+
 bool	all_chr_present(char *s1, const char *s2)
 {
 	int	i;
@@ -44,6 +45,7 @@ bool	all_chr_present(char *s1, const char *s2)
 	}
 	return (true);
 }
+
 /* This function reallocate an array of string from its old size to its
  new size.*/
 uint32_t *ft_realloc_int(uint32_t *input, size_t old_count, size_t new_count)
@@ -94,6 +96,7 @@ char	**ft_realloc_strings(char **ptr, size_t old_count, size_t new_count)
 	free_array(ptr);
 	return (new_ptr);
 }
+
 size_t list_len(uint32_t *arr)
 {
 	size_t	count;
@@ -107,23 +110,23 @@ size_t list_len(uint32_t *arr)
 	return (count);
 }
 
-int read_map(t_parse *parser)
+int read_map(t_game *game)
 {
 	
 	// (void)parser;
-	t_map	*m;
+	t_map	*map;
 
-	m = parser->map;
-	if (!all_chr_present(parser->line, MAPCHRS))
+	map = game->parser->map;
+	if (!all_chr_present(game->parser->line, MAPCHRS))
 	{
-		parser->map_part = false;	
-		return (error_handler("Map chars are incorrect!", NOSYSERR), 1);
+		game->parser->map_part = false;	
+		return (error(game, "Map chars are incorrect!", NOSYSERR), 1);
 	}
 	
-	m->grid = ft_realloc_strings(m->grid, array_length(m->grid), \
-				array_length(m->grid) + 1);
-	m->grid[m->map_height] = ft_strdup(parser->line);
-	m->grid[++m->map_height] = '\0';
+	map->grid = ft_realloc_strings(map->grid, array_length(map->grid), \
+			array_length(map->grid) + 1);
+	map->grid[map->map_height] = ft_strdup(game->parser->line);
+	map->grid[++map->map_height] = '\0';
 	return (0);
 }
 
@@ -148,9 +151,25 @@ bool check_element(t_parse *parser)
 	return (false);
 }
 
-int	check_map_char(t_map *map)
+int	check_map_char(t_game *game)
 {
-	
+	uint32_t	i;
+	uint32_t	j;
+
+	i = -1;
+	while (++i < game->map->map_height)
+	{
+		j = -1;
+		while (++j < game->map->widths[i])
+		{
+			if (ft_strchr("NEWS", game->map->grid[i][j]) && game->ply.pos.x != 0)
+				return (error(game, "Repeated player char!", NOSYSERR), 1);
+			if (ft_strchr("NEWS", game->map->grid[i][j]) && game->ply.pos.x == 0)
+				game->ply.pos = (t_pos){i, j};
+		}
+	}
+	printf("pos:x:%d and pos:y:%d\n", game->ply.pos.x, game->ply.pos.y);
+	return (0);
 }
 
 int	calc_map_rows_widths(t_map *map)
@@ -160,7 +179,7 @@ int	calc_map_rows_widths(t_map *map)
 
 	i = -1;
 	longest = 0;
-	map->widths = (uint32_t *)ft_calloc(map->map_height + 1, sizeof(uint32_t));
+	map->widths = (uint32_t *)ft_calloc(map->map_height, sizeof(uint32_t));
 	while (++i < map->map_height)
 	{
 		map->widths[i] = ft_strlen(map->grid[i]);
@@ -168,49 +187,52 @@ int	calc_map_rows_widths(t_map *map)
 			longest = map->widths[i];
 	}
 	map->max_width = longest;
-	for (int i = 0; map->widths[i]; i++)
+	for (uint32_t i = 0; i < map->map_height; i++)
 		printf("line[%d]: length:[%d]	|%s|\n", i, map->widths[i], map->grid[i]);
 	printf(GREEN"longest line is: "RESET RED"%d\n"RESET, map->max_width);
 	return (0);
 }
 
-bool assessment_map(t_map *map)
+bool assessment_map(t_game *game)
 {
 	// printf("hight:%d, line[%d]:%s\n", m->map_height, m->map_height, m->grid[m->map_height]);
-	calc_map_rows_widths(map);
-	check_map_char(map);
+	calc_map_rows_widths(game->map);
+	check_map_char(game);
+	check_map_path(game);
 	
 	return (true);
 }
 
 
-bool assessment_element(t_map *map, int error)
+bool assessment_element(t_game *game, int err)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
+	t_map	*map;
 
+	map = game->map;
 	if (!map->no_texture || (fd = open(map->no_texture, O_RDONLY)) < 0)
-		return (error_handler("NO_texture file add wrong", error), false);
+		return (error(game, "NO_texture file add wrong", err), false);
 	if (!map->so_texture || (fd = open(map->so_texture, O_RDONLY) < 0))
-		return (error_handler("SO_texture file add wrong", error), false);
+		return (error(game, "SO_texture file add wrong", err), false);
 	if (!map->ea_texture || (fd = open(map->ea_texture, O_RDONLY) < 0))
-		return (error_handler("EA_texture file add wrong", error), false);
+		return (error(game, "EA_texture file add wrong", err), false);
 	if (!map->we_texture || (fd = open(map->we_texture, O_RDONLY) < 0))
-		return (error_handler("WE_texture file add wrong", error), false);
+		return (error(game, "WE_texture file add wrong", err), false);
 	close(fd);
 	i = 0;
 	while (map->ceiling_color[i])
 	{
 		// printf("color ceiling:[%d]:%d\n", i, map->ceiling_color[i]);
 		if (map->ceiling_color[i++] == -1)
-			return (error_handler("Ceiling color is wrong", error), false);
+			return (error(game, "Ceiling color is wrong", err), false);
 	}
 	i = 0;
 	while (map->floor_color[i])
 	{
 		// printf("color floor:[%d]:%d\n", i, map->floor_color[i]);
 		if (map->floor_color[i++] == -1)	
-			return (error_handler("Floor color is wrong", error), false);
+			return (error(game, "Floor color is wrong", err), false);
 	}
 	return (true);
 }
@@ -351,31 +373,37 @@ bool	line_is_empty(char *line)
 	return (true);
 }
 
-int	fetch_map_detail(t_parse *parser)
+int	fetch_map_detail(t_game *game)
 {
 	int li = 0;
 	
-	while ((parser->line = get_next_line(parser->fd)))
+	while ((game->parser->line = get_next_line(game->parser->fd)))
 	{
 		li++;
-		if (parser->line[ft_strlen(parser->line) -1] == '\n')
-			parser->line[ft_strlen(parser->line) - 1] = '\0';
-		if (!parser->line)
+		if (game->parser->line[ft_strlen(game->parser->line) -1] == '\n')
+			game->parser->line[ft_strlen(game->parser->line) - 1] = '\0';
+		if (!game->parser->line)
 			continue ;
-		if (!line_is_empty(parser->line))
+		if (!line_is_empty(game->parser->line))
 		{
 
-			if (check_element(parser))
-				read_map(parser);
-			read_element(parser);
-			// for(int i = 0; parser->split[i]; i++)
-			// 	printf("\ts[%d]:%s.\n", i, parser->split[i]);
+			if (check_element(game->parser))
+				read_map(game);
+			read_element(game->parser);
+			// for(int i = 0; game->parser->split[i]; i++)
+			// 	printf("\ts[%d]:%s.\n", i, game->parser->split[i]);
 		}
-		if (parser->line)
-			free(parser->line);
+		if (game->parser->line)
+			free(game->parser->line);
 	}
-	close(parser->fd);
+	close(game->parser->fd);
 	return (EXIT_SUCCESS);
+}
+
+void	initiate_player(t_player *ply)
+{
+	ply->pos.x = 0;
+	ply->pos.y = 0;
 }
 
 void	initiate_game(t_game *game, char *file)
@@ -384,18 +412,19 @@ void	initiate_game(t_game *game, char *file)
 	game->map = (t_map *)ft_calloc(1, sizeof(t_map));
 	initiate_map(game->map);
 	initiate_parser(game->parser, game, file);
+	initiate_player(&game->ply);
 }
 
 int	parsing_map(t_game *game, char *file)
 {
 	initiate_game(game, file);
-	fetch_map_detail(game->parser);
-	assessment_element(game->map, NOSYSERR);
-	assessment_map(game->map);
+	fetch_map_detail(game);
+	assessment_element(game, NOSYSERR);
+	assessment_map(game);
 	return (EXIT_SUCCESS);
 }
 
-int	check_map_file_format_add(char *file)
+int	check_map_file_format_add(t_game *game, char *file)
 {
 	char	*str;
 	int		i;
@@ -404,29 +433,29 @@ int	check_map_file_format_add(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (error_handler("MPADD", SYSERR));
+		return (error(game, "MPADD", SYSERR));
 	close(fd);
 	str = ft_strdup(".cub\0");
 	i = (int)ft_strlen(file) - 4;
 	j = 0;
 	if (i < 0)
-		return (free(str), error_handler("MAFOR", NOSYSERR));	
+		return (free(str), error(game, "MAFOR", NOSYSERR));	
 	while (file[i] != '\0' && str[j] != '\0')
 	{
 		if (file[i++] != str[j++])
-			return (free(str), error_handler("MAFOR", NOSYSERR));
+			return (free(str), error(game, "MAFOR", NOSYSERR));
 	}
 	if (file[i] == '\0' && str[j] == '\0')
 		return (free(str), EXIT_SUCCESS);
 	else
-		return (free(str), error_handler("MAFOR", NOSYSERR)); 
+		return (free(str), error(game, "MAFOR", NOSYSERR)); 
 }
 
 int	checking_map(int ac, char **av, t_game *game)
 {
 	if (ac != 2)
 		return (EXIT_FAILURE); /// The error should be handled.
-	if (check_map_file_format_add(av[1]))
+	if (check_map_file_format_add(game, av[1]))
 		return (EXIT_FAILURE); // The error should be handled.
 	if (parsing_map(game, av[1]))
 		return (EXIT_FAILURE); /// The error should be handled.

@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:02:04 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/15 23:56:06 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:31:24 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	initiate_parser(t_parse *parser, t_game *game, char *file)
 {
 	parser->fd = open(file, O_RDONLY);
 	if (parser->fd == -1)
-		error_handler("The cub file address is wrong.", SYSERR);
+		error(game, "The cub file address is wrong.", SYSERR);
 	parser->line = NULL;
 	parser->split = NULL;
 	// parser->details_part = true;
@@ -72,26 +72,38 @@ void	free_parser(t_parse *parser)
 		free(parser);
 	}
 }
+void	free_map(t_map *map)
+{
+	
+	if (map->no_texture != NULL)
+		free(map->no_texture);
+	if (map->so_texture != NULL)
+		free(map->so_texture);
+	if (map->ea_texture != NULL)
+		free(map->ea_texture);
+	if (map->we_texture != NULL)
+		free(map->we_texture);
+	if (map->grid != NULL)
+		free_array(map->grid);
+	if (map->widths)
+		free(map->widths);
+	// free(map);
+	// map = NULL;
+}
 
-void	free_game(t_game *game)
+void	close_game(t_game *game)
 {
 	if (game == NULL || game->map == NULL)
 		return ;
-	if (game->map->no_texture != NULL)
-		free(game->map->no_texture);
-	if (game->map->so_texture != NULL)
-		free(game->map->so_texture);
-	if (game->map->ea_texture != NULL)
-		free(game->map->ea_texture);
-	if (game->map->we_texture != NULL)
-		free(game->map->we_texture);
-	if (game->map->grid != NULL)
-		free_array(game->map->grid);
-	if (game->map->widths)
-		free(game->map->widths);
 	if (game->map != NULL)
+	{
+		free_map(game->map);
 		free(game->map);
+		game->map = NULL;
+	}
 	if (game->parser != NULL)
 		free(game->parser);
+	// game->parser = NULL;
 	free(game);
+	game = NULL;
 }

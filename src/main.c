@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:16:02 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/15 21:03:50 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 01:03:12 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	main(int ac, char **av)
 
 	game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (checking_map(ac, av, game))
-		return (free_game(game), EXIT_FAILURE);	
-	if (game->map)
+		return (close_game(game), EXIT_FAILURE);	
+	if (game->map != NULL)
 		print_map_details(game);
-	return (free_game(game), EXIT_SUCCESS);
+	return (close_game(game), EXIT_SUCCESS);
 }

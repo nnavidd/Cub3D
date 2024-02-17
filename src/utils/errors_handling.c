@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:17:56 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/14 11:29:28 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/16 19:14:09 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*error_table(char *code)
 	header file that has a value of -1. This exit code is typically used
 	to indicate a more specific type of error, 
 	such as a file I/O error or a memory allocation error.*/
-int	error_handler(char *error, int no)
+int	error(t_game *game, char *error, int no)
 {
 	if (no == NOSYSERR)
 	{
@@ -59,6 +59,7 @@ int	error_handler(char *error, int no)
 		strerror(errno);
 		perror("The system error is\033[38;5;196m");
 	}
+	close_game(game);
 	// if (no == -2)
 	// 	return ;
 	// // system("leaks so_long");

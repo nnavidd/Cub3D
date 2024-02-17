@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/14 23:08:40 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:32:12 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,20 @@ typedef struct s_map{
 	uint32_t	*widths;
 }		t_map;
 
+typedef struct s_pos{
+	uint32_t	x;
+	uint32_t	y;
+}		t_pos;
+
+typedef struct s_player{
+	t_pos		pos;
+}		t_player;
+
+
 typedef struct s_game{
-	t_map	*map;
-	t_parse	*parser;
+	t_map		*map;
+	t_parse		*parser;
+	t_player	ply;
 }	t_game;
 
 /////////////////////////////////////////////////////
