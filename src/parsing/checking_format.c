@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/17 00:33:26 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:44:24 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,16 @@ int read_map(t_game *game)
 	// (void)parser;
 	t_map	*map;
 
-	map = game->parser->map;
-	if (!all_chr_present(game->parser->line, MAPCHRS))
+	map = game->parser.map;
+	if (!all_chr_present(game->parser.line, MAPCHRS))
 	{
-		game->parser->map_part = false;	
+		game->parser.map_part = false;	
 		return (error(game, "Map chars are incorrect!", NOSYSERR), 1);
 	}
-	
+
 	map->grid = ft_realloc_strings(map->grid, array_length(map->grid), \
 			array_length(map->grid) + 1);
-	map->grid[map->map_height] = ft_strdup(game->parser->line);
+	map->grid[map->map_height] = ft_strdup(game->parser.line);
 	map->grid[++map->map_height] = '\0';
 	return (0);
 }
@@ -134,12 +134,12 @@ bool check_element(t_parse *parser)
 {
 	int		fd;
 	t_map	*map;
-
+	
 	map = parser->map;
-	if ((map->no_texture && (fd = open(map->no_texture, O_RDONLY)) > 0) &&
-		(map->so_texture && (fd = open(map->so_texture, O_RDONLY)) > 0) &&
-		(map->ea_texture && (fd = open(map->ea_texture, O_RDONLY)) > 0) &&
-		(map->we_texture && (fd = open(map->we_texture, O_RDONLY)) > 0) &&
+	if ((map->no_xpm && (fd = open(map->no_xpm, O_RDONLY)) > 0) &&
+		(map->so_xpm && (fd = open(map->so_xpm, O_RDONLY)) > 0) &&
+		(map->ea_xpm && (fd = open(map->ea_xpm, O_RDONLY)) > 0) &&
+		(map->we_xpm && (fd = open(map->we_xpm, O_RDONLY)) > 0) &&
 		((map->ceiling_color[0] != -1) && (map->ceiling_color[1] != -1) &&
 		(map->ceiling_color[02] != -1)) && ((map->floor_color[0] != -1) &&
 		(map->floor_color[1] != -1) && (map->floor_color[2] != -1)))
@@ -157,15 +157,15 @@ int	check_map_char(t_game *game)
 	uint32_t	j;
 
 	i = -1;
-	while (++i < game->map->map_height)
+	while (++i < game->map.map_height)
 	{
 		j = -1;
-		while (++j < game->map->widths[i])
+		while (++j < game->map.widths[i])
 		{
-			if (ft_strchr("NEWS", game->map->grid[i][j]) && game->ply.pos.x != 0)
+			if (ft_strchr("NEWS", game->map.grid[i][j]) && game->ply.pos.x != 0)
 				return (error(game, "Repeated player char!", NOSYSERR), 1);
-			if (ft_strchr("NEWS", game->map->grid[i][j]) && game->ply.pos.x == 0)
-				game->ply.pos = (t_pos){i, j};
+			if (ft_strchr("NEWS", game->map.grid[i][j]) && game->ply.pos.x == 0)
+				game->ply.pos = (t_pos){j, i};
 		}
 	}
 	printf("pos:x:%d and pos:y:%d\n", game->ply.pos.x, game->ply.pos.y);
@@ -196,13 +196,12 @@ int	calc_map_rows_widths(t_map *map)
 bool assessment_map(t_game *game)
 {
 	// printf("hight:%d, line[%d]:%s\n", m->map_height, m->map_height, m->grid[m->map_height]);
-	calc_map_rows_widths(game->map);
+	calc_map_rows_widths(&game->map);
 	check_map_char(game);
 	check_map_path(game);
 	
 	return (true);
 }
-
 
 bool assessment_element(t_game *game, int err)
 {
@@ -210,27 +209,25 @@ bool assessment_element(t_game *game, int err)
 	int		i;
 	t_map	*map;
 
-	map = game->map;
-	if (!map->no_texture || (fd = open(map->no_texture, O_RDONLY)) < 0)
+	map = &game->map;
+	if (!map->no_xpm || (fd = open(map->no_xpm, O_RDONLY)) < 0)
 		return (error(game, "NO_texture file add wrong", err), false);
-	if (!map->so_texture || (fd = open(map->so_texture, O_RDONLY) < 0))
+	if (!map->so_xpm || (fd = open(map->so_xpm, O_RDONLY) < 0))
 		return (error(game, "SO_texture file add wrong", err), false);
-	if (!map->ea_texture || (fd = open(map->ea_texture, O_RDONLY) < 0))
+	if (!map->ea_xpm || (fd = open(map->ea_xpm, O_RDONLY) < 0))
 		return (error(game, "EA_texture file add wrong", err), false);
-	if (!map->we_texture || (fd = open(map->we_texture, O_RDONLY) < 0))
+	if (!map->we_xpm || (fd = open(map->we_xpm, O_RDONLY) < 0))
 		return (error(game, "WE_texture file add wrong", err), false);
 	close(fd);
 	i = 0;
 	while (map->ceiling_color[i])
 	{
-		// printf("color ceiling:[%d]:%d\n", i, map->ceiling_color[i]);
 		if (map->ceiling_color[i++] == -1)
 			return (error(game, "Ceiling color is wrong", err), false);
 	}
 	i = 0;
 	while (map->floor_color[i])
 	{
-		// printf("color floor:[%d]:%d\n", i, map->floor_color[i]);
 		if (map->floor_color[i++] == -1)	
 			return (error(game, "Floor color is wrong", err), false);
 	}
@@ -340,23 +337,29 @@ int extract_rgb(t_parse *parser)
 
 int	read_element(t_parse *parser)
 {
+	
+	// printf(RED"no_file:%s\n"RESET, parser->map->no_xpm);
 	parser->split = ft_split(parser->line, ' ');
 	for (int j = 0; parser->split[j] != NULL; j++)
 		str_trim(parser->split[j], '\t');
 	parser->split = rm_empty_array_elements(parser->split);
+	// for(int i = 0; parser->split[i]; i++)
+	// 			printf("\ts[%d]:%s.\n", i, parser->split[i]);
 	if (array_length(parser->split) != 2)
 		return (free_array(parser->split), 1);
 	if (ft_strcmp(parser->split[0] ,"NO") == 0)
-		parser->map->no_texture = ft_strdup(parser->split[1]);
+		parser->map->no_xpm = ft_strdup(parser->split[1]);
 	else if (ft_strcmp(parser->split[0], "SO") == 0)
-		parser->map->so_texture = ft_strdup(parser->split[1]);
+		parser->map->so_xpm = ft_strdup(parser->split[1]);
 	else if (ft_strcmp(parser->split[0], "EA") == 0)
-		parser->map->ea_texture = ft_strdup(parser->split[1]);
+		parser->map->ea_xpm = ft_strdup(parser->split[1]);
 	else if (ft_strcmp(parser->split[0], "WE") == 0)
-		parser->map->we_texture = ft_strdup(parser->split[1]);
+		parser->map->we_xpm = ft_strdup(parser->split[1]);
 	else if (ft_strcmp(parser->split[0], "F") == 0 || 
 				ft_strcmp(parser->split[0], "C") == 0)
 		extract_rgb(parser);
+			
+	
 	return (free_array(parser->split), 0);
 }
 
@@ -377,26 +380,24 @@ int	fetch_map_detail(t_game *game)
 {
 	int li = 0;
 	
-	while ((game->parser->line = get_next_line(game->parser->fd)))
+	while ((game->parser.line = get_next_line(game->parser.fd)))
 	{
 		li++;
-		if (game->parser->line[ft_strlen(game->parser->line) -1] == '\n')
-			game->parser->line[ft_strlen(game->parser->line) - 1] = '\0';
-		if (!game->parser->line)
+		if (game->parser.line[ft_strlen(game->parser.line) -1] == '\n')
+			game->parser.line[ft_strlen(game->parser.line) - 1] = '\0';
+		if (!game->parser.line)
 			continue ;
-		if (!line_is_empty(game->parser->line))
+		if (!line_is_empty(game->parser.line))
 		{
 
-			if (check_element(game->parser))
+			if (check_element(&game->parser))
 				read_map(game);
-			read_element(game->parser);
-			// for(int i = 0; game->parser->split[i]; i++)
-			// 	printf("\ts[%d]:%s.\n", i, game->parser->split[i]);
+			read_element(&game->parser);
 		}
-		if (game->parser->line)
-			free(game->parser->line);
+		if (game->parser.line)
+			free(game->parser.line);
 	}
-	close(game->parser->fd);
+	close(game->parser.fd);
 	return (EXIT_SUCCESS);
 }
 
@@ -408,10 +409,10 @@ void	initiate_player(t_player *ply)
 
 void	initiate_game(t_game *game, char *file)
 {
-	game->parser = (t_parse *)ft_calloc(1, sizeof(t_parse));
-	game->map = (t_map *)ft_calloc(1, sizeof(t_map));
-	initiate_map(game->map);
-	initiate_parser(game->parser, game, file);
+	// game->parser = (t_parse *)ft_calloc(1, sizeof(t_parse));
+	// game->map = (t_map *)ft_calloc(1, sizeof(t_map));
+	initiate_map(&game->map);
+	initiate_parser(&game->parser, game, file);
 	initiate_player(&game->ply);
 }
 

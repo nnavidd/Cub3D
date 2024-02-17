@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:46:15 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/17 00:25:02 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:31:35 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,6 @@
 typedef struct s_map t_map;
 typedef struct s_game t_game;
 typedef struct s_pos t_pos;
-
-typedef struct s_parse{
-    
-    int     fd;
-    char    *line;
-    char    **split;
-    // bool    details_part;
-    bool    map_part;
-    t_map   *map;
-} t_parse;
 
 
 /*****************checking_format.c********************/

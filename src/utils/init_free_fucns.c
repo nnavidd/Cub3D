@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:02:04 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/17 01:31:24 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:31:58 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	initiate_map(t_map *map)
 {
 	map->resolution_x = 0;
 	map->resolution_y = 0;
-	map->no_texture = NULL;
-	map->so_texture = NULL;
-	map->ea_texture = NULL;
-	map->we_texture = NULL;
+	map->no_xpm = NULL;
+	map->so_xpm = NULL;
+	map->ea_xpm = NULL;
+	map->we_xpm = NULL;
 	map->floor_color[0] = -1;
 	map->floor_color[1] = -1;
 	map->floor_color[2] = -1;
@@ -41,7 +41,7 @@ void	initiate_parser(t_parse *parser, t_game *game, char *file)
 	parser->split = NULL;
 	// parser->details_part = true;
 	// parser->map_part = false;
-	parser->map = game->map;
+	parser->map = &game->map;
 }
 
 void	free_array(char **map)
@@ -75,14 +75,14 @@ void	free_parser(t_parse *parser)
 void	free_map(t_map *map)
 {
 	
-	if (map->no_texture != NULL)
-		free(map->no_texture);
-	if (map->so_texture != NULL)
-		free(map->so_texture);
-	if (map->ea_texture != NULL)
-		free(map->ea_texture);
-	if (map->we_texture != NULL)
-		free(map->we_texture);
+	if (map->no_xpm != NULL)
+		free(map->no_xpm);
+	if (map->so_xpm != NULL)
+		free(map->so_xpm);
+	if (map->ea_xpm != NULL)
+		free(map->ea_xpm);
+	if (map->we_xpm != NULL)
+		free(map->we_xpm);
 	if (map->grid != NULL)
 		free_array(map->grid);
 	if (map->widths)
@@ -93,17 +93,17 @@ void	free_map(t_map *map)
 
 void	close_game(t_game *game)
 {
-	if (game == NULL || game->map == NULL)
-		return ;
-	if (game->map != NULL)
+	// if (game == NULL || game->map == NULL)
+		// return ;
+	// if (game->map != NULL)
 	{
-		free_map(game->map);
-		free(game->map);
-		game->map = NULL;
+		free_map(&game->map);
+		// free(game->map);
+		// game->map = NULL;
 	}
-	if (game->parser != NULL)
-		free(game->parser);
+	// if (game->parser != NULL)
+		// free(game->parser);
 	// game->parser = NULL;
-	free(game);
+	// free(game);
 	game = NULL;
 }

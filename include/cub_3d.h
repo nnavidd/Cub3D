@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/16 18:32:12 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:31:49 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef struct s_parse t_parse;
 typedef struct s_map{
 	int			resolution_x;
 	int			resolution_y;
-	char		*no_texture;
-	char		*so_texture;
-	char		*we_texture;
-	char		*ea_texture;
+	char		*no_xpm;
+	char		*so_xpm;
+	char		*we_xpm;
+	char		*ea_xpm;
 	char		*sprite_texture;
 	int			floor_color[3];
 	char		**grid;
@@ -64,6 +64,16 @@ typedef struct s_map{
 	uint32_t	max_width;
 	uint32_t	*widths;
 }		t_map;
+
+typedef struct s_parse{
+    
+    int     fd;
+    char    *line;
+    char    **split;
+    // bool    details_part;
+    bool    map_part;
+    t_map   *map;
+} t_parse;
 
 typedef struct s_pos{
 	uint32_t	x;
@@ -76,8 +86,10 @@ typedef struct s_player{
 
 
 typedef struct s_game{
-	t_map		*map;
-	t_parse		*parser;
+	// t_map		*map;
+	t_map		map;
+	// t_parse		*parser;
+	t_parse		parser;
 	t_player	ply;
 }	t_game;
 
