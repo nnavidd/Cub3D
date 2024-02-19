@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 21:23:22 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/17 20:54:55 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/19 21:40:14 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,22 @@ char	**creat_sample_gird(t_game *game)
 
 bool fill_grid(t_game *game, t_pos pos, char **grid)
 {
-    if ((int)pos.x < 0 || pos.x >= game->map.widths[pos.y] || (int)pos.y < 0 || pos.y >= game->map.map_height)
-        return false;
-
-    if (grid[pos.y][pos.x] != '1' && grid[pos.y][pos.x] != '0' && !ft_strchr("NEWS", grid[pos.y][pos.x]))
+	if ((int)pos.y < 0 || pos.y >= game->map.map_height || \
+		(int)pos.x < 0 || pos.x >= game->map.widths[pos.y])
 	{
-		printf("hi p.xy:{%d, %d} width:%d height:%d\n", pos.x, pos.y, game->map.widths[pos.y], game->map.map_height);
-        return false;
+		printf("hi p.xy:{%d, %d}\n", pos.x, pos.y);
+		return (error(game, "Wrong path in Map!!!", NOSYSERR));
 	}
-
-    if (grid[pos.y][pos.x] == '-')
-        return false; // Already visited
-
-    grid[pos.y][pos.x] = '-'; // Mark the current position as visited
-
-    sleep(1); // Add a delay
-    print_grid(grid); // Print the grid
-
-    fill_grid(game, (t_pos){pos.x - 1, pos.y}, grid);
-    fill_grid(game, (t_pos){pos.x, pos.y + 1}, grid);
-    fill_grid(game, (t_pos){pos.x + 1, pos.y}, grid);
-    fill_grid(game, (t_pos){pos.x, pos.y - 1}, grid);
-
-    return true;
+	if (grid[pos.y][pos.x] == '1')
+		return true;
+	if (grid[pos.y][pos.x] == ' ')
+		grid[pos.y][pos.x] = '0';
+	grid[pos.y][pos.x] = '1';
+	fill_grid(game, (t_pos){pos.x - 1, pos.y}, grid);
+	fill_grid(game, (t_pos){pos.x + 1, pos.y}, grid);
+	fill_grid(game, (t_pos){pos.x, pos.y + 1}, grid);
+	fill_grid(game, (t_pos){pos.x, pos.y - 1}, grid);
+	return true;
 }
 
 /*To check the path we need to create a sample map
@@ -77,10 +70,8 @@ int check_map_path(t_game *game)
 	char **grid;
 
 	grid = creat_sample_gird(game);
-	// exit(1);
 	if (!fill_grid(game, game->ply.pos, grid))
-		printf("path is wrong!!!\n");
-		// return (free_array(grid), error(game, "Map has wrong path!!!", NOSYSERR));
+		return (free_array(grid), error(game, "Map has wrong path!!!", NOSYSERR));
 	free_array(grid);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:17:56 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/16 19:14:09 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/19 21:42:57 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ int	error(t_game *game, char *error, int no)
 		perror("The system error is\033[38;5;196m");
 	}
 	close_game(game);
-	// if (no == -2)
-	// 	return ;
-	// // system("leaks so_long");
-	// exit(errno);
-	return (1);
+	// system("leaks ./cub3D");
+	return (exit(EXIT_FAILURE), 1);
 }

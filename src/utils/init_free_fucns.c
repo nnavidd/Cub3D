@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:02:04 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/17 15:31:58 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:10:54 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ void	free_array(char **map)
 	map = NULL;	
 }
 
-void	free_parser(t_parse *parser)
-{
-	if (parser != NULL)
-	{
-		if (parser->line)
-			free(parser->line);
-		if (parser->split != NULL)
-			free_array(parser->split);
-		// free(parser->game);
-		free(parser);
-	}
-}
+// void	free_parser(t_parse *parser)
+// {
+// 	if (parser != NULL)
+// 	{
+// 		if (parser->line)
+// 			free(parser->line);
+// 		if (parser->split != NULL)
+// 			free_array(parser->split);
+// 		// free(parser->game);
+// 		free(parser);
+// 	}
+// }
 void	free_map(t_map *map)
 {
 	

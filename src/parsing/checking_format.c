@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/17 16:44:24 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:29:14 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int read_map(t_game *game)
 	map = game->parser.map;
 	if (!all_chr_present(game->parser.line, MAPCHRS))
 	{
-		game->parser.map_part = false;	
+		// game->parser.map_part = false;	
 		return (error(game, "Map chars are incorrect!", NOSYSERR), 1);
 	}
 
@@ -168,7 +168,6 @@ int	check_map_char(t_game *game)
 				game->ply.pos = (t_pos){j, i};
 		}
 	}
-	printf("pos:x:%d and pos:y:%d\n", game->ply.pos.x, game->ply.pos.y);
 	return (0);
 }
 
@@ -187,9 +186,9 @@ int	calc_map_rows_widths(t_map *map)
 			longest = map->widths[i];
 	}
 	map->max_width = longest;
-	for (uint32_t i = 0; i < map->map_height; i++)
-		printf("line[%d]: length:[%d]	|%s|\n", i, map->widths[i], map->grid[i]);
-	printf(GREEN"longest line is: "RESET RED"%d\n"RESET, map->max_width);
+	// for (uint32_t i = 0; i < map->map_height; i++)
+	// 	printf("line[%d]: length:[%d]	|%s|\n", i, map->widths[i], map->grid[i]);
+	// printf(GREEN"longest line is: "RESET RED"%d\n"RESET, map->max_width);
 	return (0);
 }
 
@@ -434,31 +433,31 @@ int	check_map_file_format_add(t_game *game, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (error(game, "MPADD", SYSERR));
+		return (error(game, "Cub file address is wrong!", SYSERR));
 	close(fd);
 	str = ft_strdup(".cub\0");
 	i = (int)ft_strlen(file) - 4;
 	j = 0;
 	if (i < 0)
-		return (free(str), error(game, "MAFOR", NOSYSERR));	
+		return (free(str), error(game, "Cub file format wrong!", NOSYSERR));
 	while (file[i] != '\0' && str[j] != '\0')
 	{
 		if (file[i++] != str[j++])
-			return (free(str), error(game, "MAFOR", NOSYSERR));
+			return (free(str), error(game, "Cub file format wrong!", NOSYSERR));
 	}
 	if (file[i] == '\0' && str[j] == '\0')
 		return (free(str), EXIT_SUCCESS);
 	else
-		return (free(str), error(game, "MAFOR", NOSYSERR)); 
+		return (free(str), error(game, "Cub file format wrong!", NOSYSERR)); 
 }
 
 int	checking_map(int ac, char **av, t_game *game)
 {
 	if (ac != 2)
-		return (EXIT_FAILURE); /// The error should be handled.
+		return (error(game, "Wrong input numbers!", NOSYSERR), EXIT_FAILURE);
 	if (check_map_file_format_add(game, av[1]))
-		return (EXIT_FAILURE); // The error should be handled.
+		return (EXIT_FAILURE);
 	if (parsing_map(game, av[1]))
-		return (EXIT_FAILURE); /// The error should be handled.
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
