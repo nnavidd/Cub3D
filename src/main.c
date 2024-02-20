@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:16:02 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/19 23:56:55 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:34:44 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void print_map_details(t_game *game)
 		for(int i = 0; game->map.grid[i]; i++)
 			// printf(GREEN"%s\n"RESET, game->map.grid[i]);
 			printf(GREEN"line[%d]: length:[%d]"RESET ORG"	|%s|\n", i, game->map.widths[i], game->map.grid[i]);
-printf("longest line is: "RESET RED"%d\n"RESET, game->map.max_width);
+	printf("longest line is: "RESET RED"%d\n"RESET, game->map.max_width);
 	}
 }
 

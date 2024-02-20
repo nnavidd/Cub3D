@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/19 23:29:14 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:44:12 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,9 @@ int read_map(t_game *game)
 	map = game->parser.map;
 	if (!all_chr_present(game->parser.line, MAPCHRS))
 	{
-		// game->parser.map_part = false;	
 		return (error(game, "Map chars are incorrect!", NOSYSERR), 1);
 	}
-
+	game->parser.map_part = true;
 	map->grid = ft_realloc_strings(map->grid, array_length(map->grid), \
 			array_length(map->grid) + 1);
 	map->grid[map->map_height] = ft_strdup(game->parser.line);
@@ -310,13 +309,30 @@ char **rm_empty_array_elements(char **str_array)
 	return (free(str_array), result);
 }
 
+size_t	ft_strcountchr(char *str, char c)
+{
+	int	i;
+	size_t	counter;
+
+	i = -1;
+	counter = 0;
+	while (str[++i])
+	{
+		if (str[i] == c)
+			counter++;
+	}
+	return (counter);
+}
+
 int extract_rgb(t_parse *parser)
 {
 	char	**rgb;
 
+	if (ft_strcountchr(parser->split[1], ',') > 2)
+		return (error(parser->game, "Wrong rgb format!!!", NOSYSERR));
 	rgb = ft_split(parser->split[1], ',');
-	// for (int  i =  0; rgb[i]; i++)
-	// 	printf("rgb[%d]:%s\n", i, rgb[i]);
+	for (int  i =  0; rgb[i]; i++)
+		printf("rgb[%d]:%s\n", i, rgb[i]);
 	if (array_length(rgb) != 3)
 		return (free_array(rgb), 1);
 	if (!ft_strcmp(parser->split[0], "F"))
@@ -393,6 +409,8 @@ int	fetch_map_detail(t_game *game)
 				read_map(game);
 			read_element(&game->parser);
 		}
+		else if (line_is_empty(game->parser.line) && game->parser.map_part)
+			error(game, "Empty line during map reading!!!", NOSYSERR);
 		if (game->parser.line)
 			free(game->parser.line);
 	}
@@ -415,9 +433,8 @@ void	initiate_game(t_game *game, char *file)
 	initiate_player(&game->ply);
 }
 
-int	parsing_map(t_game *game, char *file)
+int	parsing_map(t_game *game)
 {
-	initiate_game(game, file);
 	fetch_map_detail(game);
 	assessment_element(game, NOSYSERR);
 	assessment_map(game);
@@ -453,11 +470,12 @@ int	check_map_file_format_add(t_game *game, char *file)
 
 int	checking_map(int ac, char **av, t_game *game)
 {
+	initiate_game(game, av[1]);
 	if (ac != 2)
 		return (error(game, "Wrong input numbers!", NOSYSERR), EXIT_FAILURE);
 	if (check_map_file_format_add(game, av[1]))
 		return (EXIT_FAILURE);
-	if (parsing_map(game, av[1]))
+	if (parsing_map(game))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

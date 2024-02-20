@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:02:04 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/19 17:10:54 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:47:27 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	initiate_map(t_map *map)
 	map->ceiling_color[0] = -1;
 	map->ceiling_color[1] = -1;
 	map->ceiling_color[2] = -1;
-	map->map_width = 0;
+	// map->map_width = 0;
 	map->map_height = 0;
 	map->widths = NULL;
 }
@@ -40,8 +40,9 @@ void	initiate_parser(t_parse *parser, t_game *game, char *file)
 	parser->line = NULL;
 	parser->split = NULL;
 	// parser->details_part = true;
-	// parser->map_part = false;
+	parser->map_part = false;
 	parser->map = &game->map;
+	parser->game = game;
 }
 
 void	free_array(char **map)
@@ -75,7 +76,7 @@ void	free_array(char **map)
 void	free_map(t_map *map)
 {
 	
-	if (map->no_xpm != NULL)
+	if (map->no_xpm && map->no_xpm != NULL)
 		free(map->no_xpm);
 	if (map->so_xpm != NULL)
 		free(map->so_xpm);

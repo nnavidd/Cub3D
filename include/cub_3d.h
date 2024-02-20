@@ -6,7 +6,7 @@
 /*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/19 23:34:24 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:47:04 by nnabaeei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 # define SYSERR		0
 # define NOSYSERR	1
-# define ONLY_CHECK	2
+// # define ONLY_CHECK	2
 # define WIDTH 256
 # define HEIGHT 256
 
@@ -59,7 +59,7 @@ typedef struct s_map{
 	int			floor_color[3];
 	char		**grid;
 	int			ceiling_color[3];
-	uint32_t	map_width;
+	// uint32_t	map_width;
 	uint32_t	map_height;
 	uint32_t	max_width;
 	uint32_t	*widths;
@@ -71,8 +71,9 @@ typedef struct s_parse{
     char    *line;
     char    **split;
     // bool    details_part;
-    // bool    map_part;
+    bool    map_part;
     t_map   *map;
+	t_game	*game;
 } 		t_parse;
 
 typedef struct s_pos{
