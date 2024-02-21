@@ -6,7 +6,7 @@
 /*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 21:23:22 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/21 05:31:26 by navid            ###   ########.fr       */
+/*   Updated: 2024/02/21 11:07:34 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int check_map_path(t_game *game)
 {
 	char **grid;
 
+	if (game->map.grid == NULL)
+		error(game, "No Map found!!!", NOSYSERR);
 	grid = creat_sample_gird(game);
 	if (!fill_grid(game, game->ply.pos, grid))
 		return (free_array(grid), error(game, "Map has wrong path!!!", NOSYSERR));
