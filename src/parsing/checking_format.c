@@ -6,7 +6,7 @@
 /*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/21 05:30:44 by navid            ###   ########.fr       */
+/*   Updated: 2024/02/21 06:48:47 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,8 +331,8 @@ int extract_rgb(t_parse *parser)
 	if (ft_strcountchr(parser->split[1], ',') > 2)
 		return (error(parser->game, "Wrong rgb format!!!", NOSYSERR));
 	rgb = ft_split(parser->split[1], ',');
-	for (int  i =  0; rgb[i]; i++)
-		printf("rgb[%d]:%s\n", i, rgb[i]);
+	// for (int  i =  0; rgb[i]; i++)
+	// 	printf("rgb[%d]:%s\n", i, rgb[i]);
 	if (array_length(rgb) != 3)
 		return (free_array(rgb), 1);
 	if (!ft_strcmp(parser->split[0], "F"))
