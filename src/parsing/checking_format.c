@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_format.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:36 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/20 22:44:12 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/21 05:30:44 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int read_map(t_game *game)
 	map->grid = ft_realloc_strings(map->grid, array_length(map->grid), \
 			array_length(map->grid) + 1);
 	map->grid[map->map_height] = ft_strdup(game->parser.line);
-	map->grid[++map->map_height] = '\0';
+	map->grid[++map->map_height] = NULL;
 	return (0);
 }
 

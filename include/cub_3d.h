@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:29:06 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/20 22:47:04 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/21 05:18:58 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include <math.h>
 # include <sys/wait.h>
 # include <limits.h>
-# include <X11/X.h>
+# ifdef __linux__
+	# include <X11/X.h>
+# endif
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include "../libs/libft/fts.h"
 # include "../include/utils.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:16:02 by nnabaeei          #+#    #+#             */
-/*   Updated: 2024/02/20 19:34:44 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/21 05:29:25 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void print_map_details(t_game *game)
 		printf(RED"EA:"RESET"%s\n", game->map.ea_xpm);
 	if (game->map.we_xpm)
 		printf(RED"WE:"RESET"%s\n", game->map.we_xpm);
-	if (game->map.ceiling_color)
+	if (game->map.ceiling_color[0])
 		printf(GREEN"Ceiling:"RESET RED"R:"RESET"%d "RED"G:"RESET"%d "RED"B: "
 		RESET"%d\n", game->map.ceiling_color[0], game->map.ceiling_color[1],
 			game->map.ceiling_color[2]);
-	if (game->map.floor_color)
+	if (game->map.floor_color[0])
 		printf(GREEN"Floor  :"RESET RED"R:"RESET"%d "RED"G:"RESET"%d "RED"B: "
 		RESET"%d\n", game->map.floor_color[0], game->map.floor_color[1],
 			game->map.floor_color[2]);

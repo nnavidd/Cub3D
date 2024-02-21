@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_map_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nnabaeei <nnabaeei@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: navid <navid@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 21:23:22 by nnavidd           #+#    #+#             */
-/*   Updated: 2024/02/19 21:40:14 by nnabaeei         ###   ########.fr       */
+/*   Updated: 2024/02/21 05:31:26 by navid            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**creat_sample_gird(t_game *game)
 	i = -1;
 	while(game->map.grid[++i] != 0)
 		grid[i] = ft_strdup(game->map.grid[i]);
-	grid[i] = '\0';
+	grid[i] = NULL;
 	return (grid);
 }
 
