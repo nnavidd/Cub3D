@@ -55,12 +55,18 @@ endif
 
 $(LIBFT):
 	@echo "\033[38;5;214m-----Compiling the LIBFT files-----"
+	@if [ ! -d "$(LIBFT_DIR)" ]; then \
+		git submodule add -f https://github.com/nnavidd/Libft.git $(LIBFT_DIR); \
+	fi
 	@mkdir -p $(LIBFT_DIR)
 	@git submodule update --init --recursive --remote $(LIBFT_DIR)
 	@make -C $(LIBFT_DIR) --silent
 
 $(MLX42):
 	@echo "\033[38;5;214m-----Compiling the MLX files-----"
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		git submodule add -f https://github.com/codam-coding-college/MLX42.git $(MLX_DIR); \
+	fi
 	@git submodule update --init --recursive --remote $(MLX_DIR)
 ifeq ($(UNAME), Linux)
 	@cmake -S $(MLX_DIR)/ -B $(MLX_BUILD) -DGLFW_FETCH=1
